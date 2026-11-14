@@ -1,0 +1,19 @@
+@font-face { font-family: "Noto Serif Devanagari"; src: url("../fonts/NotoSerifDevanagari-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Noto Serif Devanagari"; src: url("../fonts/NotoSerifDevanagari-Bold.ttf"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Noto Serif"; src: url("../fonts/NotoSerif-Regular.ttf"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Noto Serif"; src: url("../fonts/NotoSerif-Bold.ttf"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Noto Serif"; src: url("../fonts/NotoSerif-Italic.ttf"); font-style: italic; font-display: swap; }
+:root { --tr-font-size: 20px; --tr-line-height: 1.65; --tr-margin: 28px; --tr-font-dev: "Noto Serif Devanagari", serif; --tr-font-latin: "Noto Serif", serif; --tr-ui: "Inter", -apple-system, system-ui, sans-serif; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--tr-bg); color: var(--tr-fg); font-family: var(--tr-ui); -webkit-font-smoothing: antialiased; }
+.book { font-size: var(--tr-font-size); line-height: var(--tr-line-height); }
+body[data-script="dev"] .book { font-family: var(--tr-font-dev); }
+body[data-script="iast"] .book { font-family: var(--tr-font-latin); }
+.book h1 { font-size: 1.35em; text-align: center; margin: 0.4em 0 0.8em; }
+.book h2 { font-size: 1.1em; text-align: center; margin: 0.8em 0 0.8em; }
+.book blockquote { margin: 0.9em 0; padding-left: 0.9em; border-left: 2px solid var(--tr-rule); }
+.book blockquote p { margin: 0 0 0.3em; }
+.book p { margin: 0 0 0.75em; }
+.book .inv { text-align: center; }
+.book .mn { text-align: center; font-size: 0.72em; letter-spacing: 0.08em; color: var(--tr-muted); margin: 1.2em 0 0.5em; }
+.book .pg { font-size: 0.7em; color: var(--tr-muted); font-style: normal; }

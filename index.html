@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sa">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tantrarājatantra Reader</title>
+<meta name="description" content="Read the Tantrarājatantra with the Manoramā commentary like a book: page turns, themes, and a pencil highlighter.">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/highlights.css">
+<link rel="stylesheet" href="css/nav.css">
+</head>
+<body data-theme="original" data-script="dev">
+  <header id="topbar" class="chrome">
+    <!-- nav.js fills: library/TOC button, chapter title, search, bookmark -->
+    <div id="topbar-left"></div><div id="topbar-title"></div><div id="topbar-right"></div>
+  </header>
+  <main id="reader">
+    <!-- paginator.js owns #viewport and #page-content -->
+    <div id="viewport"><article id="page-content" class="book"></article></div>
+  </main>
+  <footer id="bottombar" class="chrome">
+    <!-- nav.js fills: progress scrubber + "page X of Y in this chapter" -->
+    <div id="progress"></div>
+  </footer>
+  <div id="panels"><!-- settings.js, nav.js, highlights.js mount their sheets/popovers here --></div>
+  <script src="js/core.js"></script>
+  <script src="js/paginator.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/highlights.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/boot.js"></script>
+</body>
+</html>

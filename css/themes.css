@@ -1,0 +1,155 @@
+/* themes.css: theme defaults (first paint), selection colour, and the Themes & Settings sheet.
+   settings.js sets the live values on :root; these are only fallbacks so the page never flashes. */
+:root {
+  --tr-bg: #ffffff; --tr-fg: #1d1d1f; --tr-muted: #6e6e73; --tr-accent: #0a64d8;
+  --tr-accent-soft: rgba(10, 100, 216, 0.24); --tr-rule: #e3e3e8; --tr-chrome-bg: #ffffff;
+  --tr-control-bg: #f2f2f5; --tr-weight: 400;
+  --tr-ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tr-dark="0"]) {
+    --tr-bg: #000000; --tr-fg: #e5e5e7; --tr-muted: #8e8e93; --tr-accent: #4c9bff;
+    --tr-accent-soft: rgba(76, 155, 255, 0.30); --tr-rule: #2c2c2e; --tr-chrome-bg: #000000; --tr-control-bg: #1c1c1e;
+  }
+}
+
+/* Theme colours ease in like Apple Books when the reader switches themes. */
+html, body, #topbar, #bottombar, .chrome { transition: background-color 280ms ease, color 280ms ease, border-color 280ms ease; }
+.chrome { background: var(--tr-chrome-bg); }
+.book { font-weight: var(--tr-weight); }
+.book strong, .book b, .book h1, .book h2 { font-weight: 700; }
+
+::selection { background: var(--tr-accent-soft); color: inherit; }
+:focus-visible { outline: 2px solid var(--tr-accent); outline-offset: 2px; }
+
+/* Root verses only: hide the Manorama commentary paragraphs and their labels. */
+body.tr-no-commentary .book p:not(.inv):not(blockquote p),
+body.tr-no-commentary .book p.mn { display: none; }
+
+/* ---------- Topbar button ---------- */
+.trs-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 38px; height: 38px; padding: 0; margin: 0 2px; border: 0; border-radius: 4px;
+  background: transparent; color: var(--tr-fg); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+.trs-btn:hover { background: var(--tr-control-bg); }
+.trs-btn[aria-expanded="true"] { color: var(--tr-accent); }
+.trs-btn svg { width: 22px; height: 22px; display: block; }
+
+/* ---------- Scrim + sheet ---------- */
+.trs-scrim {
+  position: fixed; inset: 0; z-index: 90; background: rgba(0, 0, 0, 0);
+  opacity: 0; pointer-events: none; transition: opacity 260ms ease;
+}
+.trs-scrim.is-open { opacity: 1; pointer-events: auto; }
+
+.trs-sheet {
+  position: fixed; z-index: 91; font-family: var(--tr-ui); color: var(--tr-fg);
+  background: var(--tr-chrome-bg); border: 1px solid var(--tr-rule); border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+  top: calc(env(safe-area-inset-top, 0px) + 54px); right: 12px; width: 340px;
+  max-height: calc(100vh - 80px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 14px 16px 16px;
+  opacity: 0; visibility: hidden; transform: translateY(-6px) scale(0.98); transform-origin: top right;
+  transition: opacity 220ms ease, transform 300ms var(--tr-ease), visibility 0s linear 300ms,
+              background-color 280ms ease, color 280ms ease, border-color 280ms ease;
+}
+.trs-sheet.is-open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+.trs-grab { display: none; }
+
+@media (max-width: 600px) {
+  .trs-scrim { background: rgba(0, 0, 0, 0.28); }
+  .trs-sheet {
+    top: auto; right: 0; left: 0; bottom: 0; width: auto; max-height: 82vh;
+    border-radius: 4px 4px 0 0; border-bottom: 0;
+    padding: 6px 16px calc(env(safe-area-inset-bottom, 0px) + 18px);
+    transform: translateY(100%); opacity: 1;
+    transition: transform 340ms var(--tr-ease), visibility 0s linear 340ms,
+                background-color 280ms ease, color 280ms ease, border-color 280ms ease;
+  }
+  .trs-sheet.is-open { transform: translateY(var(--trs-drag, 0px)); }
+  .trs-sheet.is-dragging { transition: none; }
+  .trs-grab { display: block; width: 100%; height: 22px; border: 0; background: transparent; cursor: grab; touch-action: none; padding: 0; }
+  .trs-grab::before { content: ""; display: block; width: 38px; height: 4px; margin: 8px auto; border-radius: 2px; background: var(--tr-rule); }
+}
+
+.trs-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; }
+.trs-title { font-size: 16px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+.trs-close {
+  width: 30px; height: 30px; border: 0; border-radius: 4px; padding: 0; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--tr-control-bg); color: var(--tr-muted); transition: color 160ms ease;
+}
+.trs-close:hover { color: var(--tr-fg); }
+.trs-close svg { width: 14px; height: 14px; }
+
+.trs-row { margin: 0 0 12px; }
+.trs-label { display: block; font-size: 12px; font-weight: 500; color: var(--tr-muted); margin: 0 0 6px; }
+
+/* Text size: two big buttons, small A and large A, like Apple Books. */
+.trs-size { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--tr-rule); border-radius: 4px; overflow: hidden; }
+.trs-size button {
+  height: 44px; border: 0; background: var(--tr-control-bg); color: var(--tr-fg); cursor: pointer;
+  font-family: var(--tr-font-latin); transition: background-color 160ms ease, opacity 160ms ease;
+}
+.trs-size button:hover { background: var(--tr-rule); }
+.trs-size button:disabled { opacity: 0.35; cursor: default; }
+.trs-size .sm { font-size: 15px; }
+.trs-size .lg { font-size: 24px; }
+.trs-size-val { font-size: 12px; color: var(--tr-muted); font-variant-numeric: tabular-nums; float: right; font-weight: 400; }
+
+/* Segmented controls */
+.trs-seg {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 2px; padding: 2px;
+  background: var(--tr-control-bg); border-radius: 4px; position: relative;
+}
+.trs-seg button {
+  position: relative; z-index: 1; height: 32px; border: 0; border-radius: 3px; padding: 0 6px;
+  background: transparent; color: var(--tr-muted); font: 500 13px var(--tr-ui); cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: background-color 220ms var(--tr-ease), color 180ms ease;
+}
+.trs-seg button:hover { color: var(--tr-fg); }
+.trs-seg button[aria-pressed="true"] { background: var(--tr-chrome-bg); color: var(--tr-fg); box-shadow: 0 0 0 1px var(--tr-rule); }
+.trs-seg .dev { font-family: var(--tr-font-dev); font-size: 14px; }
+
+/* Theme tiles */
+.trs-themes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.trs-theme {
+  position: relative; height: 72px; border-radius: 4px; cursor: pointer; padding: 0;
+  border: 1px solid var(--trs-t-rule); background: var(--trs-t-bg); color: var(--trs-t-fg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  transition: transform 200ms var(--tr-ease), border-color 200ms ease, box-shadow 200ms ease;
+}
+.trs-theme:hover { transform: translateY(-1px); }
+.trs-theme:active { transform: scale(0.98); }
+.trs-theme .glyph { font-family: var(--tr-font-latin); font-size: 22px; line-height: 1; font-weight: var(--trs-t-weight, 400); }
+.trs-theme .glyph.dev { font-family: var(--tr-font-dev); font-size: 24px; }
+.trs-theme .name { font: 500 11px var(--tr-ui); opacity: 0.8; }
+.trs-theme[aria-pressed="true"] { border-color: var(--tr-accent); box-shadow: 0 0 0 1px var(--tr-accent); }
+
+/* Switch */
+.trs-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; padding: 4px 0; font-size: 14px; }
+.trs-toggle small { display: block; font-size: 12px; color: var(--tr-muted); margin-top: 2px; }
+.trs-switch {
+  flex: none; position: relative; width: 44px; height: 26px; border: 0; padding: 0; cursor: pointer;
+  border-radius: 4px; background: var(--tr-rule); transition: background-color 220ms ease;
+}
+.trs-switch::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 3px;
+  background: #ffffff; transition: transform 240ms var(--tr-ease);
+}
+.trs-switch[aria-checked="true"] { background: var(--tr-accent); }
+.trs-switch[aria-checked="true"]::after { transform: translateX(18px); }
+
+.trs-divider { height: 1px; background: var(--tr-rule); margin: 4px 0 12px; border: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  html, body, #topbar, #bottombar, .chrome, .trs-sheet, .trs-scrim, .trs-seg button, .trs-theme, .trs-switch, .trs-switch::after {
+    transition-duration: 1ms !important;
+  }
+  .trs-sheet, .trs-sheet.is-open { transform: none !important; }
+  .trs-theme:hover, .trs-theme:active { transform: none; }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Tantrarājatantra Reader",
+  "short_name": "Tantrarāja",
+  "description": "Read the Tantrarājatantra with the Manoramā commentary like a book. Page turns, themes, a pencil highlighter, and offline reading.",
+  "lang": "sa",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F6EFE3",
+  "theme_color": "#7A2E1D",
+  "categories": ["books", "education"],
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
