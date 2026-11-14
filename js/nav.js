@@ -288,7 +288,7 @@
     const pw = preview.offsetWidth || 180;
     preview.style.left = Math.max(pw / 2, Math.min(w - pw / 2, f * w)) + 'px';
     preview.classList.add('show');
-    loadChapter(TR.state.script, c.id).then(e2 => { if (dragging && e2 && fracToPos(dragF).index === p.index) showPreview(dragF); });
+    if (!entry) loadChapter(TR.state.script, c.id).then(e2 => { if (dragging && e2 && fracToPos(dragF).index === p.index) showPreview(dragF); });
   }
   scrub.addEventListener('pointerdown', e => {
     if (e.button > 0) return;

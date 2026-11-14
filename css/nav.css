@@ -22,7 +22,7 @@
 #topbar {
   top: 0; height: calc(var(--nav-top-h) + env(safe-area-inset-top, 0px));
   padding: env(safe-area-inset-top, 0px) max(8px, env(safe-area-inset-right, 0px)) 0 max(8px, env(safe-area-inset-left, 0px));
-  display: grid; grid-template-columns: 1fr minmax(0, 2fr) 1fr; align-items: center;
+  display: grid; grid-template-columns: minmax(max-content, 1fr) minmax(0, 2fr) minmax(max-content, 1fr); column-gap: 6px; align-items: center;
   border-bottom: 1px solid var(--nav-rule);
 }
 #bottombar {
