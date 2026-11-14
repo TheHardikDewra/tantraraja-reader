@@ -333,10 +333,18 @@
   function currentSelectionRange() {
     const sel = getSelection();
     if (!sel || !sel.rangeCount || sel.isCollapsed) return null;
-    const r = sel.getRangeAt(0);
+    let r = sel.getRangeAt(0);
     const root = content();
-    if (!root || !root.contains(r.commonAncestorContainer)) return null;
-    if (!String(sel).trim()) return null;
+    if (!root) return null;
+    if (!root.contains(r.commonAncestorContainer)) {
+      // a drag that ran past the text (into a margin or the bars): clamp it to the book text
+      if (!r.intersectsNode(root)) return null;
+      const c = document.createRange();
+      if (root.contains(r.startContainer)) c.setStart(r.startContainer, r.startOffset); else c.setStart(root, 0);
+      if (root.contains(r.endContainer)) c.setEnd(r.endContainer, r.endOffset); else c.setEnd(root, root.childNodes.length);
+      r = c;
+    }
+    if (!r.toString().trim()) return null;
     return r;
   }
   function maybeSelectionMenu() {

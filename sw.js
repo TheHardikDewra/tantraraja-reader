@@ -1,5 +1,5 @@
 /* sw.js: offline cache for the reader. Bump VERSION when shipping changes. */
-const VERSION = 'tr-v1';
+const VERSION = 'v2-2026-11-14';
 const SHELL = VERSION + '-shell';
 const BOOK = VERSION + '-book';
 

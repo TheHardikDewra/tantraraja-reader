@@ -1,6 +1,7 @@
 /* nav.css: top bar, bottom scrubber, Contents / Bookmarks / Search sheets, ribbon, hint card.
    Flat colours only: no gradients, no glow. Radius 4px max. One accent (--tr-accent). */
-:root {
+:root, body {
+  /* re-declared on body so the AA fixes in themes.css (set on body) reach the nav tokens */
   --nav-bg: var(--tr-chrome-bg, var(--tr-bg, #faf8f3));
   --nav-fg: var(--tr-fg, #1d1b18);
   --nav-muted: var(--tr-muted, #77716a);
@@ -46,7 +47,7 @@ body.tr-hit-test .chrome, body.tr-hit-test #panels, body.tr-hit-test #panels * {
 .tr-btn {
   appearance: none; border: 0; background: transparent; color: var(--nav-fg);
   font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
-  height: 36px; padding: 0 10px; border-radius: 4px;
+  height: 40px; padding: 0 10px; border-radius: 4px;
   display: inline-flex; align-items: center; gap: 7px;
   transition: background-color 160ms var(--nav-ease), color 160ms var(--nav-ease);
   -webkit-tap-highlight-color: transparent;
@@ -55,16 +56,17 @@ body.tr-hit-test .chrome, body.tr-hit-test #panels, body.tr-hit-test #panels * {
 .tr-btn:active { background: color-mix(in srgb, var(--nav-fg) 12%, transparent); }
 .tr-btn:focus-visible, .tr-scrub:focus-visible, .tr-toc-item:focus-visible, .tr-result:focus-visible,
 .tr-bm-item:focus-visible, .tr-tab:focus-visible, .tr-hint-ok:focus-visible { outline: 2px solid var(--nav-accent); outline-offset: 1px; }
-.tr-icon-btn { width: 38px; padding: 0; justify-content: center; }
+.tr-icon-btn { width: 40px; padding: 0; justify-content: center; }
 .tr-text-btn { color: var(--nav-accent); font-weight: 600; }
 #tr-btn-bm .on { display: none; }
 #tr-btn-bm.active .on { display: block; color: var(--nav-accent); }
 #tr-btn-bm.active .off { display: none; }
-@media (max-width: 520px) { .tr-btn-label { display: none; } #tr-btn-toc { width: 38px; padding: 0; justify-content: center; } }
+@media (max-width: 520px) { .tr-btn-label { display: none; } #tr-btn-toc { width: 40px; padding: 0; justify-content: center; } }
 
 /* ---------- scrubber ---------- */
 #progress { height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 5px; max-width: 980px; margin: 0 auto; }
-.tr-scrub { position: relative; height: 22px; display: flex; align-items: center; cursor: pointer; touch-action: none; outline: none; }
+.tr-scrub { position: relative; height: 28px; display: flex; align-items: center; cursor: pointer; touch-action: none; outline: none; }
+.tr-scrub::before { content: ""; position: absolute; inset: -6px 0; } /* 40px touch band, same layout */
 .tr-track { display: flex; gap: 2px; width: 100%; height: 3px; }
 .tr-seg { position: relative; flex: 1 1 0; min-width: 1px; height: 100%; background: var(--nav-rule); border-radius: 1px; overflow: hidden; }
 .tr-seg i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--nav-muted); }
@@ -79,7 +81,7 @@ body.tr-hit-test .chrome, body.tr-hit-test #panels, body.tr-hit-test #panels * {
 .tr-scrub.dragging .tr-thumb { transition: none; height: 20px; margin-top: -10px; }
 .tr-prog-label { text-align: center; font-size: 11.5px; color: var(--nav-muted); font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
 .tr-preview {
-  position: absolute; bottom: 30px; left: 0; transform: translate(-50%, 4px);
+  position: absolute; bottom: 34px; left: 0; transform: translate(-50%, 4px);
   min-width: 160px; max-width: 260px; padding: 8px 11px;
   background: var(--nav-bg); color: var(--nav-fg);
   border: 1px solid var(--nav-rule); border-radius: 4px;
@@ -121,7 +123,7 @@ body.tr-hit-test .chrome, body.tr-hit-test #panels, body.tr-hit-test #panels * {
 .tr-seg-ctl { display: flex; margin: 0 18px 10px; padding: 2px; border-radius: 4px; background: color-mix(in srgb, var(--nav-fg) 7%, transparent); }
 .tr-tab {
   flex: 1; appearance: none; border: 0; background: transparent; color: var(--nav-fg);
-  font: inherit; font-size: 13px; font-weight: 500; height: 30px; border-radius: 3px; cursor: pointer;
+  font: inherit; font-size: 13px; font-weight: 500; height: 36px; border-radius: 3px; cursor: pointer;
   transition: background-color 200ms var(--nav-ease);
 }
 .tr-tab.active { background: var(--nav-bg); font-weight: 600; box-shadow: 0 0 0 1px var(--nav-rule); }
@@ -161,7 +163,7 @@ body[data-script="iast"] .tr-result, body[data-script="iast"] .tr-bm-snip { font
 
 /* search */
 .tr-search-field {
-  flex: 1; display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 10px;
+  flex: 1; display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 10px;
   border-radius: 4px; background: color-mix(in srgb, var(--nav-fg) 7%, transparent); color: var(--nav-muted);
 }
 .tr-search-field .tr-ico { width: 17px; height: 17px; }
@@ -215,8 +217,8 @@ body[data-script="iast"] .tr-result, body[data-script="iast"] .tr-bm-snip { font
 .tr-hint li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; }
 .tr-hint li .tr-ico { width: 19px; height: 19px; color: var(--nav-accent); margin-top: 1px; }
 .tr-hint-ok {
-  width: 100%; height: 38px; appearance: none; border: 0; border-radius: 4px; cursor: pointer;
-  background: var(--nav-accent); color: #fff; font: inherit; font-size: 14px; font-weight: 600;
+  width: 100%; height: 40px; appearance: none; border: 0; border-radius: 4px; cursor: pointer;
+  background: var(--nav-accent); color: var(--tr-bg, #fff); font: inherit; font-size: 14px; font-weight: 600;
   transition: opacity 160ms var(--nav-ease);
 }
 .tr-hint-ok:hover { opacity: 0.9; }

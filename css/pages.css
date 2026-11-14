@@ -14,7 +14,8 @@
   left: 0;
   right: 0;
   margin: 0 auto;
-  width: min(100%, 780px);
+  /* ~66-70 characters per line at any text size, like Apple Books. */
+  width: min(100%, calc(var(--tr-font-size, 20px) * 36 + 2 * var(--tr-margin, 28px)));
   overflow: hidden;
   touch-action: none;           /* we own horizontal swipes; pen strokes go to highlights.js */
   -webkit-user-select: text;
@@ -22,7 +23,7 @@
   -webkit-touch-callout: default;
   cursor: default;
 }
-body.tr-spread #viewport { width: min(100%, 1480px); }
+body.tr-spread #viewport { width: min(100%, calc(2 * (var(--tr-font-size, 20px) * 33 + 2 * var(--tr-margin, 28px)))); }
 
 /* Two-page spread: a hairline spine between the pages. */
 body.tr-spread #viewport::after {
@@ -33,7 +34,7 @@ body.tr-spread #viewport::after {
   left: 50%;
   width: 1px;
   background: var(--tr-rule);
-  opacity: 0.6;
+  opacity: 0.9;
   pointer-events: none;
 }
 
@@ -77,4 +78,52 @@ body.tr-spread #viewport::after {
 @media (prefers-reduced-motion: reduce) {
   #page-content.tr-anim { transition: none; }
   .tr-folio { transition: none; }
+}
+
+/* ---------- Book typography (design review) ----------
+   Monochrome page like Apple Books: no accent colour inside the text, only rules and weight. */
+#page-content { font-kerning: normal; text-rendering: optimizeLegibility; }
+
+/* Chapter label (h1) small and quiet, heading (h2) carries the weight. */
+.book h1 { font-size: 0.82em; font-weight: 500; color: var(--tr-muted); margin: 0.6em 0 0.5em; line-height: 1.4; }
+body[data-script="iast"] .book h1 { font-variant-caps: all-small-caps; letter-spacing: 0.12em; }
+.book h2 { font-size: 1.32em; line-height: 1.3; margin: 0.2em 0 1.1em; text-wrap: balance; }
+
+/* Invocation lines */
+.book p.inv { margin: 0 0 0.35em; text-align: center; }
+.book p.inv + h2, .book p.inv + p:not(.inv) { margin-top: 1em; }
+
+/* Root verses: a hairline on the left, bold text, generous air. */
+.book blockquote {
+  margin: 1.15em 0 1.25em; padding: 0.1em 0 0.1em 1em;
+  border-left: 2px solid color-mix(in srgb, var(--tr-fg) 24%, transparent);
+}
+.book blockquote p { margin: 0 0 0.6em; text-align: start; -webkit-hyphens: manual; hyphens: manual; }
+.book blockquote p:last-child { margin-bottom: 0; }
+.book blockquote strong { font-weight: 700; }
+
+/* Commentary: ragged right by default. The text is full of very long Sanskrit compounds and the page is
+   lang="sa", which no browser can hyphenate, so full justification opened wide rivers (tested in Chrome).
+   Justified text is opt-in with body.tr-justify; it hyphenates IAST wherever the browser can. */
+#page-content > p:not(.inv):not(.mn) { text-align: start; text-wrap: pretty; }
+body[data-script="iast"] #page-content > p:not(.inv):not(.mn) { -webkit-hyphens: auto; hyphens: auto; hyphenate-limit-chars: 6 3 3; }
+body.tr-justify #page-content > p:not(.inv):not(.mn) { text-align: justify; text-align-last: start; }
+
+/* "Manorama" label: small, letter-spaced, muted, with short rules either side.
+   Pseudo-elements keep the text node untouched, so highlight offsets stay the same. */
+.book p.mn {
+  text-align: center; font-family: var(--tr-ui); font-size: 0.6em; font-weight: 600; line-height: 1.4;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--tr-muted); margin: 1.5em 0 0.8em;
+}
+body[data-script="dev"] .book p.mn { font-family: var(--tr-font-dev); font-size: 0.74em; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.book p.mn::before, .book p.mn::after {
+  content: ""; display: inline-block; width: 2.4em; height: 1px; vertical-align: middle;
+  background: color-mix(in srgb, var(--tr-muted) 45%, transparent); margin: 0 0.9em;
+}
+body[data-script="dev"] .book p.mn::before, body[data-script="dev"] .book p.mn::after { width: 1.8em; margin: 0 0.7em; }
+
+/* Printed page marker: a quiet folio in the UI face. */
+.book .pg {
+  font-family: var(--tr-ui); font-size: 0.56em; font-weight: 500; letter-spacing: 0.02em;
+  color: var(--tr-muted); font-variant-numeric: tabular-nums; vertical-align: 0.3em; margin-right: 0.3em;
 }

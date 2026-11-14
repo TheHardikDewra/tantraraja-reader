@@ -29,7 +29,7 @@ body.tr-no-commentary .book p.mn { display: none; }
 /* ---------- Topbar button ---------- */
 .trs-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 38px; height: 38px; padding: 0; margin: 0 2px; border: 0; border-radius: 4px;
+  width: 40px; height: 40px; padding: 0; margin: 0 1px; border: 0; border-radius: 4px;
   background: transparent; color: var(--tr-fg); cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: background-color 180ms ease, color 180ms ease;
 }
@@ -78,7 +78,7 @@ body.tr-no-commentary .book p.mn { display: none; }
 .trs-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 12px; }
 .trs-title { font-size: 16px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
 .trs-close {
-  width: 30px; height: 30px; border: 0; border-radius: 4px; padding: 0; cursor: pointer;
+  position: relative; width: 32px; height: 32px; border: 0; border-radius: 4px; padding: 0; cursor: pointer;
   display: inline-flex; align-items: center; justify-content: center;
   background: var(--tr-control-bg); color: var(--tr-muted); transition: color 160ms ease;
 }
@@ -106,7 +106,7 @@ body.tr-no-commentary .book p.mn { display: none; }
   background: var(--tr-control-bg); border-radius: 4px; position: relative;
 }
 .trs-seg button {
-  position: relative; z-index: 1; height: 32px; border: 0; border-radius: 3px; padding: 0 6px;
+  position: relative; z-index: 1; height: 36px; border: 0; border-radius: 3px; padding: 0 6px;
   background: transparent; color: var(--tr-muted); font: 500 13px var(--tr-ui); cursor: pointer;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: background-color 220ms var(--tr-ease), color 180ms ease;
@@ -153,3 +153,15 @@ body.tr-no-commentary .book p.mn { display: none; }
   .trs-sheet, .trs-sheet.is-open { transform: none !important; }
   .trs-theme:hover, .trs-theme:active { transform: none; }
 }
+
+/* ---------- Design review: contrast + touch ----------
+   settings.js writes theme colours on :root. A few muted greys (and two accents) sat under
+   WCAG AA 4.5:1 for small text. body overrides win over the inherited :root values. */
+body[data-theme="quiet"][data-mode="light"] { --tr-muted: #c0c0c5; --tr-accent: #b3c6e0; }  /* 4.86, 5.06 */
+body[data-theme="quiet"][data-mode="dark"]  { --tr-muted: #9e9ea3; }                          /* 5.29 */
+body[data-theme="paper"][data-mode="light"] { --tr-muted: #6b675f; }                          /* 4.99 */
+body[data-theme="calm"][data-mode="light"]  { --tr-muted: #6e5b3f; --tr-accent: #96491f; }  /* 5.16, 5.10 */
+body[data-theme="focus"][data-mode="light"] { --tr-muted: #6f695b; }                          /* 5.02 */
+
+/* 40px minimum hit area for the small close button, without making it look bigger. */
+.trs-close::before { content: ""; position: absolute; inset: -4px; }

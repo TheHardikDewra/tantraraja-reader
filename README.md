@@ -8,6 +8,16 @@ You turn pages, pick a theme, set the text size, and highlight lines with a penc
 The whole text is here: the front matter and all 36 paṭalas, in Devanagari and in IAST.
 The root verses stand out from the commentary, so you always know which is which.
 
+## Screenshots
+
+| Original theme | Quiet theme, dark |
+| --- | --- |
+| ![A two-page spread in the Original theme](docs/screenshots/original.png) | ![The Quiet theme in dark mode](docs/screenshots/quiet-dark.png) |
+| **Themes & Settings** | **A highlight, just made** |
+| ![The Themes and Settings popover](docs/screenshots/settings.png) | ![A yellow highlight on a line of commentary](docs/screenshots/highlight.png) |
+| **Contents** | **iPhone** |
+| ![The Contents sheet with all 36 patalas](docs/screenshots/contents.png) | ![The reader on an iPhone-sized screen](docs/screenshots/mobile.png) |
+
 ## Features
 
 - **Page turns.** Swipe, tap the page edge, or use the keys. The turn is smooth and short.
